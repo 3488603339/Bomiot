@@ -16,11 +16,16 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 ]
 
+if 'rosetta' in settings.INSTALLED_APPS:
+    urlpatterns += [
+        re_path(r'^rosetta/', include('rosetta.urls'))
+    ]
+
 urlpatterns += [
     path('favicon.ico', views.favicon, name='favicon'),
     re_path(r'^static/(?P<path>.*)$', return_static, name='static'),
     re_path(r'^media/(?P<path>.*)$', static_serve, {'document_root': settings.MEDIA_ROOT}),
-    path('silk/', include('silk.urls', namespace='silk')),
+    path('silk/', include('silk.urls', namespace='silk'))
 ]
 
 handler404 = views.page_not_found

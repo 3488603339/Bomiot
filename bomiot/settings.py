@@ -2,7 +2,6 @@ import os, json
 from pathlib import Path
 from configparser import ConfigParser, RawConfigParser
 from django.core.management.utils import get_random_secret_key
-from loguru import logger
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -10,13 +9,6 @@ CONFIG_DIR = os.path.join(BASE_DIR, 'config')
 CONFIG = ConfigParser()
 CONFIG.read(os.path.join(CONFIG_DIR, 'config.ini'), encoding='utf-8')
 SELECTIONS = CONFIG.sections()
-
-LOG_DIR = os.path.join(BASE_DIR, 'log')
-
-if os.path.exists(LOG_DIR) is False:
-    os.makedirs(LOG_DIR)
-
-logger.add(os.path.join(LOG_DIR, 'error.log'), rotation='1 days', retention='30 days', encoding='utf-8')
 
 SECRET_KEY = get_random_secret_key()
 
@@ -28,7 +20,6 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'command',
-    'crispy_forms',
     'corsheaders',
     'django_extensions',
     'django.contrib.admin',
@@ -38,7 +29,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_filters',
-    'single_session',
+    'rosetta',
     'silk'
 ]
 
@@ -134,9 +125,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LOGIN_URL = 'login'
 
-# LANGUAGE_CODE = CONFIG.get('locale', 'language', fallback='zh-hans')
-
-TIME_ZONE = CONFIG.get('local', 'timezone', fallback='Asia/Shanghai')
+TIME_ZONE = CONFIG.get('locale', 'timezone', fallback='Asia/Shanghai')
 
 USE_I18N = True
 
@@ -156,28 +145,81 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 if os.path.exists(MEDIA_ROOT) is False:
     os.mkdir(MEDIA_ROOT)
 
-# LANGUAGES = (
-#     ('zh-hans', ('中文简体')),
-#     ('zh-hant', ('中文繁體')),
-#     ('en', ('english')),
-# )
-#
-# LOCALE_PATHS = (
-#     os.path.join(BASE_DIR, 'locale'),
-# )
+SERVER_LOGS_FILE = os.path.join(BASE_DIR, "logs", "server.log")
+ERROR_LOGS_FILE = os.path.join(BASE_DIR, "logs", "error.log")
+if not os.path.exists(os.path.join(BASE_DIR, "logs")):
+    os.makedirs(os.path.join(BASE_DIR, "logs"))
 
-ALLOWED_IMG = CONFIG.get("image_upload", "suffix_name", fallback="jpg,jpeg,gif,png,bmp,webp").split(",")
+STANDARD_LOG_FORMAT = (
+    "[%(asctime)s][%(name)s.%(funcName)s():%(lineno)d] [%(levelname)s] %(message)s"
+)
+CONSOLE_LOG_FORMAT = (
+    "[%(asctime)s][%(name)s.%(funcName)s():%(lineno)d] [%(levelname)s] %(message)s"
+)
 
-HAYSTACK_CONNECTIONS = {
-    'default': {
-        'ENGINE': 'app_doc.search.whoosh_cn_backend.WhooshEngine',
-        'PATH': os.path.join(BASE_DIR, 'whoosh_index'),
-    }
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "standard": {"format": STANDARD_LOG_FORMAT},
+        "console": {
+            "format": CONSOLE_LOG_FORMAT,
+            "datefmt": "%Y-%m-%d %H:%M:%S",
+        },
+        "file": {
+            "format": CONSOLE_LOG_FORMAT,
+            "datefmt": "%Y-%m-%d %H:%M:%S",
+        },
+    },
+    "handlers": {
+        "file": {
+            "level": "INFO",
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": SERVER_LOGS_FILE,
+            "maxBytes": 1024 * 1024 * 100,
+            "backupCount": 5,
+            "formatter": "standard",
+            "encoding": "utf-8",
+        },
+        "error": {
+            "level": "ERROR",
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": ERROR_LOGS_FILE,
+            "maxBytes": 1024 * 1024 * 100,
+            "backupCount": 3,
+            "formatter": "standard",
+            "encoding": "utf-8",
+        },
+        "console": {
+            "level": "INFO",
+            "class": "logging.StreamHandler",
+            "formatter": "console",
+        },
+    },
+    "loggers": {
+        "": {
+            "handlers": ["console", "error", "file"],
+            "level": "INFO",
+        },
+        "django": {
+            "handlers": ["console", "error", "file"],
+            "level": "INFO",
+            "propagate": False,
+        },
+        "scripts": {
+            "handlers": ["console", "error", "file"],
+            "level": "INFO",
+            "propagate": False,
+        },
+        "django.db.backends": {
+            "handlers": [],
+            "propagate": True,
+            "level": "INFO",
+        },
+    },
 }
 
-HAYSTACK_SEARCH_RESULTS_PER_PAGE = 10
-HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
-HAYSTACK_CUSTOM_HIGHLIGHTER = "app_doc.search.highlight.MyHighLighter"
+ALLOWED_IMG = CONFIG.get("image_upload", "suffix_name", fallback="jpg,jpeg,gif,png,bmp,webp").split(",")
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = None
 
@@ -209,7 +251,6 @@ CORS_ALLOW_HEADERS = (
     'language',
     'operator',
     'device',
-    'app-id',
     'event-sign'
 )
 
