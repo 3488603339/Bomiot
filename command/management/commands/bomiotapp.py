@@ -34,7 +34,7 @@ class Command(BaseCommand):
                     f.write("\n")
                     f.write(f"class {plugin.capitalize()}Config(AppConfig):\n")
                     f.write(f"    name = '{plugin}'\n")
-                models_py = os.path.join(plugin_dir, "models.py")
+                models_py = os.path.join(plugin_dir, "throttle.py")
                 with open(models_py, "w") as f:
                     f.write("from django.db import models\n")
                     f.write("\n")

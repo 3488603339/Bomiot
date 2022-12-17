@@ -8,11 +8,8 @@ from django.core.mail import send_mail
 from django.template import loader
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from utils.md5 import md5
+from django.contrib.auth.models import User
 
-def ip_feed_back():
-    ip = 'no'
-    return ip
 
 def Login(request):
     data = request.body.decode('utf-8')
@@ -26,6 +23,7 @@ def Login(request):
     else:
         context['result'] = '100000'
         return JsonResponse(context)
+
 
 def Logouts(request):
     if request.user.is_authenticated:
@@ -44,6 +42,7 @@ def Logouts(request):
         return response
     else:
         return JsonResponse({'result': '用户未登入'})
+
 
 def Registers(request):
     data = json.loads(request.body.decode().replace("'", '"')).get('data')
@@ -72,6 +71,7 @@ def Registers(request):
         context['result'] = 'Success'
         return JsonResponse(context)
 
+
 async def favicon(request):
     path = str(settings.BASE_DIR) + '/static/icons/logo.png'
     content_type, encoding = mimetypes.guess_type(path)
@@ -79,43 +79,26 @@ async def favicon(request):
     resp['Cache-Control'] = 'max-age=864000000000'
     return resp
 
-async def css(request):
-    path = str(settings.BASE_DIR) + '/templates/dist/spa' + request.path_info
-    content_type, encoding = mimetypes.guess_type(path)
-    resp = StreamingHttpResponse(FileWrapper(open(path, 'rb')), content_type=content_type)
-    resp['Cache-Control'] = "max-age=864000000000"
-    return resp
-
-async def js(request):
-    path = str(settings.BASE_DIR) + '/templates/dist/spa' + request.path_info
-    content_type, encoding = mimetypes.guess_type(path)
-    resp = StreamingHttpResponse(FileWrapper(open(path, 'rb')), content_type=content_type)
-    resp['Cache-Control'] = "max-age=864000000000"
-    return resp
 
 async def statics(request):
     path = str(settings.BASE_DIR) + '/templates/dist/spa' + request.path_info
     content_type, encoding = mimetypes.guess_type(path)
     resp = StreamingHttpResponse(FileWrapper(open(path, 'rb')), content_type=content_type)
-    resp['Cache-Control'] = "max-age=864000000000"
+    resp['Cache-Control'] = 'max-age=864000000000'
     return resp
 
-def fonts(request):
-    path = str(settings.BASE_DIR) + '/templates/dist/spa' + request.path_info
-    content_type, encoding = mimetypes.guess_type(path)
-    resp = StreamingHttpResponse(FileWrapper(open(path, 'rb')), content_type=content_type)
-    resp['Cache-Control'] = "max-age=864000000000"
-    return resp
-
-def icons(request):
-    path = str(settings.BASE_DIR) + '/templates/dist/spa' + request.path_info
-    content_type, encoding = mimetypes.guess_type(path)
-    resp = StreamingHttpResponse(FileWrapper(open(path, 'rb')), content_type=content_type)
-    resp['Cache-Control'] = "max-age=864000000000"
-    return resp
 
 def page_not_found(request, exception):
     return render(request, '404.html', status=404)
 
+
 def permission_denied(request, exception):
     return render(request, '403.html', status=403)
+
+
+def create_super_user():
+    try:
+        if User.objects.filter(is_superuser=True).exists() is False:
+            User.objects.create_superuser('admin', 'mail@56yhz.com', 'admin')
+    except:
+        pass

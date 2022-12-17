@@ -6,23 +6,25 @@ from django.conf import settings
 from django.contrib.staticfiles.views import serve
 from django.views.static import serve as static_serve
 from . import views
+from django.views.generic.base import TemplateView
+
 
 def return_static(request, path, insecure=True, **kwargs):
-  return serve(request, path, insecure, **kwargs)
+    return serve(request, path, insecure, **kwargs)
 
-app_name = 'bomiot'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', TemplateView.as_view(template_name='dist/spa/index.html')),
 ]
-
-if 'rosetta' in settings.INSTALLED_APPS:
-    urlpatterns += [
-        re_path(r'^rosetta/', include('rosetta.urls'))
-    ]
 
 urlpatterns += [
     path('favicon.ico', views.favicon, name='favicon'),
+    re_path('^css/.*$', views.statics, name='css'),
+    re_path('^js/.*$', views.statics, name='js'),
+    re_path('^assets/.*$', views.statics, name='assets'),
+    re_path('^statics/.*$', views.statics, name='statics'),
+    re_path('^fonts/.*$', views.statics, name='fonts'),
     re_path(r'^static/(?P<path>.*)$', return_static, name='static'),
     re_path(r'^media/(?P<path>.*)$', static_serve, {'document_root': settings.MEDIA_ROOT}),
     path('silk/', include('silk.urls', namespace='silk'))
@@ -38,3 +40,5 @@ for APP in APP_LIST:
         urlpatterns += [
             path(APP + '/', include(APP + '.urls'))
         ]
+
+views.create_super_user()
