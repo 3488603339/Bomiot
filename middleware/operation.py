@@ -2,7 +2,6 @@ from django.utils.deprecation import MiddlewareMixin
 
 
 class Recorder(MiddlewareMixin):
-
     def path_check(self, request):
         if str(request.path).startswith('/assets/'):
             return False

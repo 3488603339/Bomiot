@@ -26,7 +26,7 @@ SECRET_KEY = get_random_secret_key()
 
 DEBUG = CONFIG.getboolean('site', 'debug', fallback=False)
 
-VERSIONS = '0.1.0'
+VERSIONS = CONFIG.get('version', 'version', fallback='1.0.0')
 
 ALLOWED_HOSTS = ['*']
 
@@ -229,7 +229,7 @@ LOGGING = {
     },
 }
 
-ALLOWED_IMG = CONFIG.get('image_upload', 'suffix_name', fallback='jpg,jpeg,gif,png,bmp,webp').split(',')
+ALLOWED_IMG = CONFIG.get('image_upload', 'suffix_name', fallback='jpg, jpeg, gif, png, bmp, webp').split(',')
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = None
 
@@ -349,5 +349,5 @@ REST_FRAMEWORK = {
     },
 }
 
-ALLOCATION_SECONDS = 1
-THROTTLE_SECONDS = 10
+ALLOCATION_SECONDS = CONFIG.getint('throttle', 'allocation_seconds', fallback=1)
+THROTTLE_SECONDS = CONFIG.getint('throttle', 'throttle_seconds', fallback=10)

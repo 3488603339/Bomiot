@@ -2,6 +2,7 @@ from rest_framework.views import exception_handler
 from rest_framework.response import Response
 from django.db import DatabaseError
 
+
 def custom_exception_handler(exc, context):
     # Call REST framework's default exception handler first,
     # to get the standard error response.
@@ -13,9 +14,7 @@ def custom_exception_handler(exc, context):
         response = Response(response.data)
     else:
         if isinstance(exc, DatabaseError):
-            pass
-            # response = Response({'detail': 'Database Error'})
+            response = Response({'msg': DatabaseError})
         else:
-            pass
-            # response = Response({'detail': 'Other Error'})
+            response = Response({'detail': 'Other Error'})
     return response

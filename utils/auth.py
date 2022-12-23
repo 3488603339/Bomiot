@@ -1,5 +1,6 @@
-from userprofile.models import Users
+from django.db.models import User
 from rest_framework.exceptions import APIException
+
 
 class Authtication(object):
     def authenticate(self, request):

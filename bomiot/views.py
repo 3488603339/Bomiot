@@ -100,5 +100,5 @@ def create_super_user():
     try:
         if User.objects.filter(is_superuser=True).exists() is False:
             User.objects.create_superuser('admin', 'mail@56yhz.com', 'admin')
-    except:
+    finally:
         pass

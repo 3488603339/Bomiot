@@ -5,6 +5,7 @@ from django.utils.deprecation import MiddlewareMixin
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
 class ConfigMiddleware(MiddlewareMixin):
     def process_request(self, request):
         CONFIG_DIR = os.path.join(BASE_DIR, 'config')
