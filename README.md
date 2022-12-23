@@ -15,7 +15,7 @@
 ![Contributors](https://img.shields.io/github/contributors/Bomiot/Bomiot?color=blue)
 
 ![GitHub Org's stars](https://img.shields.io/github/stars/Bomiot?style=social)
-![GitHub Follows](https://img.shields.io/github/followers/Singosgu?style=social)
+![GitHub Follows](https://img.shields.io/github/followers/GreaterWMS?style=social)
 ![GitHub Forks](https://img.shields.io/github/forks/Bomiot/Bomiot?style=social)
 ![GitHub Watch](https://img.shields.io/github/watchers/Bomiot/Bomiot?style=social)
 
