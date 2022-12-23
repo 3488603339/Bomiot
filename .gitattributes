@@ -1,2 +1,2 @@
 *.vue linguist-language=python
-*.JavaScript linguist-language=python
+*.js linguist-language=python
