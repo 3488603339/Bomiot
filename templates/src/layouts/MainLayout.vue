@@ -41,6 +41,7 @@
 
     <q-page-container>
       <router-view />
+<PaginationBoundary max='10' />
     </q-page-container>
   </q-layout>
 </template>
@@ -48,6 +49,7 @@
 <script>
 import { defineComponent, ref } from 'vue'
 import EssentialLink from 'components/EssentialLink.vue'
+import PaginationBoundary from "components/pagination/PaginationBoundary.vue"
 import { useCounterStore } from 'stores/counter';
 
 const linksList = [
@@ -99,7 +101,8 @@ export default defineComponent({
   name: 'MainLayout',
 
   components: {
-    EssentialLink
+    EssentialLink,
+    PaginationBoundary
   },
 
   setup () {

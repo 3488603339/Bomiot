@@ -1,7 +1,7 @@
 <div align="center">
   <img src="static/icons/logo.png" alt="Bomiot logo" width="200" height="auto" />
   <h1>Bomiot</h1>
-  <p>Open Source Inventory Management System </p>
+  <p>Open Source One Company Management System</p>
 
 <!-- Badges -->
 [![License: APLv2](https://img.shields.io/github/license/Bomiot/Bomiot)](https://opensource.org/licenses/Apache-2.0/)
@@ -15,7 +15,7 @@
 ![Contributors](https://img.shields.io/github/contributors/Bomiot/Bomiot?color=blue)
 
 ![GitHub Org's stars](https://img.shields.io/github/stars/Bomiot?style=social)
-![GitHub Follows](https://img.shields.io/github/followers/GreaterWMS?style=social)
+![GitHub Follows](https://img.shields.io/github/followers/Singosgu?style=social)
 ![GitHub Forks](https://img.shields.io/github/forks/Bomiot/Bomiot?style=social)
 ![GitHub Watch](https://img.shields.io/github/watchers/Bomiot/Bomiot?style=social)
 

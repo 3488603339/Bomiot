@@ -9,7 +9,6 @@ function getBaseUrl (name) {
   xhr.send(null)
   return xhr.status === okStatus ? xhr.responseText : null
 }
-console.log(getBaseUrl('baseurl.txt'))
 
 const baseurl = getBaseUrl('baseurl.txt')
 
