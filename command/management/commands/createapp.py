@@ -1,4 +1,5 @@
 from django.conf import settings
+from .extends import admin, apps
 import os
 
 
@@ -44,25 +45,6 @@ def create_models_py(path):
     f.close()
 
 
-def create_apps_py(path, name):
-    apps_py = os.path.join(path, "apps.py")
-    with open(apps_py, "w") as f:
-        f.write("from django.apps import AppConfig\n")
-        f.write("\n")
-        f.write(f"class {name.capitalize()}Config(AppConfig):\n")
-        f.write(f"    name = '{name}'\n")
-    f.close()
-
-
-def create_admin_py(path):
-    admin_py = os.path.join(path, "admin.py")
-    with open(admin_py, "w") as f:
-        f.write("from django.contrib import admin\n")
-        f.write("\n")
-        f.write("# Register your models here.\n")
-    f.close()
-
-
 def get_app_name(name):
     for app in name:
         app_dir = os.path.join(settings.BASE_DIR, app)
@@ -78,11 +60,11 @@ def get_app_name(name):
             init_py = os.path.join(app_dir, "__init__.py")
             with open(init_py, "w") as f:
                 f.write("\n")
-            create_admin_py(app_dir)
-            create_apps_py(app_dir, app)
+            admin.create_admin_py(app_dir)
+            apps.create_apps_py(app_dir, app)
             create_models_py(app_dir)
             create_urls_py(app_dir)
             create_urls_py(app_dir)
             create_views_py(app_dir)
             create_config_ini(app_dir)
-            return 'Success create app'
+            return f'Success create app {app}'

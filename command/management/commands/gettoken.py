@@ -18,4 +18,4 @@ def get_token(name):
         f.write(f"email = {name}\n")
         f.write(f"token = {name}\n")
     f.close()
-    return "Success get developer's token"
+    return f"Success get developer's token, your token is {name}"
