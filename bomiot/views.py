@@ -1,31 +1,33 @@
 from django.shortcuts import render, redirect
-import os, json
+import json, mimetypes
 from django.conf import settings
-from django.http import StreamingHttpResponse, JsonResponse, HttpResponse, HttpResponseRedirect
+from django.http import StreamingHttpResponse, JsonResponse
 from wsgiref.util import FileWrapper
-import mimetypes
-from django.core.mail import send_mail
-from django.template import loader
-from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+
+from utils.jwtauth import create_token
 
 
-def Login(request):
-    data = request.body.decode('utf-8')
-    data_detail = json.loads(data).get('data')
-    user = authenticate(username=data_detail['username'], password=data_detail['pwd'])
+def logins(request):
+    data = json.loads(request.body.decode().replace("'", '"')).get('data')
+    user = authenticate(username=data['username'], password=data['pwd'])
     context = {}
     if user:
         login(request, user)
-        context['result'] = 'Success'
+        user_info = {
+            "username": user.username
+        }
+        token = create_token(user_info)
+        context['token'] = token
         return JsonResponse(context)
     else:
-        context['result'] = '100000'
-        return JsonResponse(context)
+        return JsonResponse({"results": "User Does Not Exists"})
 
 
-def Logouts(request):
+@login_required
+def logouts(request):
     if request.user.is_authenticated:
         logout(request)
         host_name = request.META.get('HTTP_HOST')
@@ -41,10 +43,10 @@ def Logouts(request):
         response.delete_cookie('username')
         return response
     else:
-        return JsonResponse({'result': '用户未登入'})
+        return JsonResponse({'result': 'User Not Log In'})
 
 
-def Registers(request):
+def registers(request):
     data = json.loads(request.body.decode().replace("'", '"')).get('data')
     context = {}
     if data['username'] == '':
@@ -72,7 +74,7 @@ def Registers(request):
         return JsonResponse(context)
 
 
-async def favicon(request):
+def favicon(request):
     path = str(settings.BASE_DIR) + '/static/icons/logo.png'
     content_type, encoding = mimetypes.guess_type(path)
     resp = StreamingHttpResponse(FileWrapper(open(path, 'rb')), content_type=content_type)
@@ -80,7 +82,7 @@ async def favicon(request):
     return resp
 
 
-async def statics(request):
+def statics(request):
     path = str(settings.BASE_DIR) + '/templates/dist/spa' + request.path_info
     content_type, encoding = mimetypes.guess_type(path)
     resp = StreamingHttpResponse(FileWrapper(open(path, 'rb')), content_type=content_type)
@@ -100,5 +102,5 @@ def create_super_user():
     try:
         if User.objects.filter(is_superuser=True).exists() is False:
             User.objects.create_superuser('admin', 'mail@56yhz.com', 'admin')
-    finally:
+    except:
         pass

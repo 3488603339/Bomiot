@@ -3,13 +3,14 @@ import os
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 from django.conf import settings
 
-_letter_cases = "abcdefghjkmnpqrstuvwxy"
+_letter_cases = 'abcdefghjkmnpqrstuvwxy'
 _upper_cases = _letter_cases.upper()
 _numbers = ''.join(map(str, range(3, 10)))
 init_chars = ''.join((_letter_cases, _upper_cases, _numbers))
 
 static_path = os.path.join(settings.BASE_DIR, "static")
 font_path = os.path.join(static_path, "MONACO.TTF")
+
 
 def create_validate_code(size=(120, 30),
                          chars=init_chars,
