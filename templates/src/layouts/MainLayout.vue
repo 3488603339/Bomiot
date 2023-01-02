@@ -16,6 +16,7 @@
         </q-toolbar-title>
 
         <div>Quasar v{{ $q.version }}</div>
+        <DarkMode />
       </q-toolbar>
     </q-header>
 
@@ -41,7 +42,6 @@
 
     <q-page-container>
       <router-view />
-<PaginationBoundary max='10' />
     </q-page-container>
   </q-layout>
 </template>
@@ -49,7 +49,8 @@
 <script>
 import { defineComponent, ref } from 'vue'
 import EssentialLink from 'components/EssentialLink.vue'
-import PaginationBoundary from "components/pagination/PaginationBoundary.vue"
+import DarkMode from 'components/settings/DarkMode.vue'
+import { useQuasar } from 'quasar'
 import { usetokenStore } from 'stores/token';
 
 const linksList = [
@@ -102,12 +103,13 @@ export default defineComponent({
 
   components: {
     EssentialLink,
-    PaginationBoundary
+    DarkMode
   },
 
   setup () {
     const leftDrawerOpen = ref(false)
     const store = usetokenStore();
+    const $q = useQuasar()
 
     return {
       essentialLinks: linksList,
@@ -115,7 +117,10 @@ export default defineComponent({
       toggleLeftDrawer () {
         leftDrawerOpen.value = !leftDrawerOpen.value
       },
-      store
+      store,
+      darkChange () {
+        $q.dark.toggle()
+      }
     }
   }
 })
