@@ -12,7 +12,7 @@
         />
 
         <q-toolbar-title>
-          Quasar App{{ store.counter }}
+          Quasar App{{ store.token }}
         </q-toolbar-title>
 
         <div>Quasar v{{ $q.version }}</div>
@@ -50,7 +50,7 @@
 import { defineComponent, ref } from 'vue'
 import EssentialLink from 'components/EssentialLink.vue'
 import PaginationBoundary from "components/pagination/PaginationBoundary.vue"
-import { useCounterStore } from 'stores/counter';
+import { usetokenStore } from 'stores/token';
 
 const linksList = [
   {
@@ -107,7 +107,7 @@ export default defineComponent({
 
   setup () {
     const leftDrawerOpen = ref(false)
-    const store = useCounterStore();
+    const store = usetokenStore();
 
     return {
       essentialLinks: linksList,

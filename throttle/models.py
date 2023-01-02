@@ -1,14 +1,16 @@
 from django.db import models
+from utils.db import BaseModel
+from django.conf import settings
 
 
-class ThrottleModel(models.Model):
+class ThrottleModel(BaseModel):
     ip = models.CharField(max_length=32, verbose_name="IP")
     method = models.CharField(max_length=18, verbose_name="Method")
     t_code = models.CharField(max_length=255, verbose_name="Transaction Code")
-    create_time = models.DateTimeField(auto_now_add=True, verbose_name="Create Time")
 
     class Meta:
-        db_table = 'throttle'
-        verbose_name = 'Throttle'
-        verbose_name_plural = "Throttle"
+        db_table = settings.BASE_DB_TABLE + ' throttle'
+        verbose_name = settings.BASE_DB_TABLE + ' Throttle'
+        verbose_name_plural = verbose_name
         ordering = ['-id']
+        permissions = ()

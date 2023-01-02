@@ -61,7 +61,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'silk.middleware.SilkyMiddleware',
-    'middleware.operation.Recorder'
+    'middleware.operation.Recorder',
+    'middleware.jwt.JwtAuthorizationMiddleware'
 ]
 
 ROOT_URLCONF = 'bomiot.urls'
@@ -117,6 +118,7 @@ else:
     }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+BASE_DB_TABLE = 'bomiot'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -351,3 +353,5 @@ REST_FRAMEWORK = {
 
 ALLOCATION_SECONDS = CONFIG.getint('throttle', 'allocation_seconds', fallback=1)
 THROTTLE_SECONDS = CONFIG.getint('throttle', 'throttle_seconds', fallback=10)
+
+BOMIOT_JWT_TIME = 60 * 60 * 24 * 7

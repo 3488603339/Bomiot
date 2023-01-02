@@ -4790,7 +4790,7 @@ S2.define('select2/defaults',[
   './dropdown/selectOnClose',
   './dropdown/closeOnSelect',
 
-  './i18n/en-US'
+  './i18n/en'
 ], function ($, require,
 
              ResultsList,
