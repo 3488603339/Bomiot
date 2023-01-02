@@ -9,6 +9,9 @@ class JwtAuthorizationMiddleware(MiddlewareMixin):
         if request.path_info in allow_path:
             return
 
+        if request.path_info.startswith('/admin/'):
+            return
+
         authorization = request.META.get('HTTP_TOKEN', '')
         auth = authorization.split()
         if not auth:

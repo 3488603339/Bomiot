@@ -137,6 +137,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LOGIN_URL = 'login'
 
+LANGUAGE_CODE = CONFIG.get('locale', 'language', fallback='zh-hans')
+
 TIME_ZONE = CONFIG.get('locale', 'timezone', fallback='Asia/Shanghai')
 
 USE_I18N = True
@@ -146,14 +148,13 @@ USE_L10N = True
 USE_TZ = False
 
 STATIC_URL = '/static/'
-if DEBUG:
-    STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
-    STATICFILES_DIR = os.path.join(BASE_DIR, 'static')
-else:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static_new').replace('\\', '/')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static").replace('\\', '/'),
+]
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media').replace('\\', '/')
 if os.path.exists(MEDIA_ROOT) is False:
     os.mkdir(MEDIA_ROOT)
 

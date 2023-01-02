@@ -2,6 +2,7 @@ import jwt
 import datetime
 from jwt import exceptions
 from django.conf import settings
+
 JWT_SALT = "ds()udsjo@jlsdosjf)wjd_#(#)$"
 
 
