@@ -4,7 +4,7 @@
 
     <div class="row base-card-shadow" style="width: 60vw;min-width: 300px">
       <div class="col-6 flex justify-center items-center " v-show="$q.screen.gt.sm">
-        <BomiotLogonLottie align="right" style="height: 70%" />
+        <BomiotLottie align="right" style="height: 70%" />
       </div>
       <q-separator vertical inset v-if="$q.screen.gt.sm"/>
       <div class="col flex justify-center items-center">
@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import BomiotLogonLottie from 'components/lottie/BomiotLottie.vue'
+import BomiotLottie from 'components/lottie/BomiotLottie.vue'
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -76,7 +76,7 @@ export default defineComponent({
       isLottieF: false
     }
   },
-  components: { BomiotLogonLottie },
+  components: { BomiotLottie },
   methods: {
     logon () {
       this.loading = !this.loading

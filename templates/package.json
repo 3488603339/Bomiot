@@ -1,8 +1,8 @@
 {
   "name": "bomiot",
   "version": "0.0.1",
-  "description": "bomiot templates app",
-  "productName": "bomiot templates",
+  "description": "Bomiot",
+  "productName": "Bomiot",
   "author": "Elvis.Shi",
   "private": true,
   "scripts": {

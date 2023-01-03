@@ -15,7 +15,6 @@
           Quasar App{{ store.token }}
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
         <DarkMode />
       </q-toolbar>
     </q-header>
