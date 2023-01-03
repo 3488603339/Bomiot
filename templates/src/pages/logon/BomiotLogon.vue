@@ -62,49 +62,55 @@
 
 <script>
 import BomiotLottie from 'components/lottie/BomiotLottie.vue'
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 
 export default defineComponent({
   name: 'BomiotLogon',
-  data () {
-    return {
-      isPwd: true,
-      username: '',
-      pwd: '',
-      loading: false,
-      percentage: 0,
-      isLottieF: false
-    }
-  },
   components: { BomiotLottie },
-  methods: {
-    logon () {
-      this.loading = !this.loading
-      if (this.username === 'admin' || this.username === 'test') {
-        sessionStorage.setItem('access_token', 972784674)
-        sessionStorage.setItem('user_role', this.username)
-        const lt = setTimeout(() => {
-          this.$router.push('/').then(e => {
-            this.$q.notify({
-              icon: 'insert_emoticon',
-              message: 'hi，cimo 欢迎回来',
-              color: 'green',
-              position: 'top',
-              timeout: 1500
+  setup () {
+    const isPwd = ref(true)
+    const username = ref('')
+    const pwd = ref('')
+    const loading = ref(false)
+    const percentage = ref(0)
+    const isLottieF = ref(false)
+
+    return {
+      isPwd,
+      username,
+      pwd,
+      loading,
+      percentage,
+      isLottieF,
+
+      logon () {
+        loading.value = !loading.value
+        if (this.username === 'admin' || this.username === 'test') {
+          sessionStorage.setItem('access_token', 972784674)
+          sessionStorage.setItem('user_role', this.username)
+          const lt = setTimeout(() => {
+            this.$router.push('/').then(e => {
+              this.$q.notify({
+                icon: 'insert_emoticon',
+                message: 'hi，cimo 欢迎回来',
+                color: 'green',
+                position: 'top',
+                timeout: 1500
+              })
+              clearTimeout(lt)
+              this.loading = !this.loading
             })
-            clearTimeout(lt)
-            this.loading = !this.loading
+          }, Math.random() * 3000)
+        } else {
+          this.loading = !this.loading
+          this.$q.notify({
+            icon: 'announcement',
+            message: '账号错误',
+            color: 'red',
+            position: 'top',
+            timeout: 1500
           })
-        }, Math.random() * 3000)
-      } else {
-        this.loading = !this.loading
-        this.$q.notify({
-          icon: 'announcement',
-          message: '账号错误',
-          color: 'red',
-          position: 'top',
-          timeout: 1500
-        })
+        }
       }
     }
   }
