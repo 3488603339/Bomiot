@@ -54,7 +54,7 @@ $(function(){
 	var syncedData = [];
 
 	jQuery.ajax = function(settings) {
-		// create settings for compatibility with ajaxSetup
+		// create headers for compatibility with ajaxSetup
 		settings = jQuery.extend(settings, jQuery.extend({}, jQuery.ajaxSettings, settings));
 
 		var port = settings.port;

@@ -1,4 +1,4 @@
-
+import constantRoutes from "./constant"
 const routes = [
   {
     path: '/',
@@ -15,5 +15,9 @@ const routes = [
     component: () => import('pages/ErrorNotFound.vue')
   }
 ]
+
+constantRoutes.forEach(item => {
+  routes.push(item)
+})
 
 export default routes

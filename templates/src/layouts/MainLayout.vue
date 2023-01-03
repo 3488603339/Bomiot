@@ -41,6 +41,7 @@
     </q-drawer>
 
     <q-page-container>
+      <PaginationBoundary />
       <router-view />
     </q-page-container>
   </q-layout>
@@ -49,7 +50,8 @@
 <script>
 import { defineComponent, ref } from 'vue'
 import EssentialLink from 'components/EssentialLink.vue'
-import DarkMode from 'components/settings/DarkMode.vue'
+import DarkMode from 'components/headers/DarkMode.vue'
+import PaginationBoundary from "components/pagination/PaginationBoundary.vue"
 import { useQuasar } from 'quasar'
 import { usetokenStore } from 'stores/token';
 
@@ -103,7 +105,8 @@ export default defineComponent({
 
   components: {
     EssentialLink,
-    DarkMode
+    DarkMode,
+    PaginationBoundary
   },
 
   setup () {
