@@ -1,1 +1,14 @@
-// app global css in SCSS form
+.bg-Bomiot-LoadingBar-color{
+    background-image: linear-gradient(to right, #56ccf2, #2f80ed, #eeeeee) !important;
+    background-size: 400% !important;
+    animation: loadingBar_animation 3s infinite;
+}
+
+@keyframes loadingBar_animation {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: -100% 0;
+    }
+}
