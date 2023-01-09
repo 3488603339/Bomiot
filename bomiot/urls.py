@@ -18,6 +18,7 @@ urlpatterns = [
     path('login/', views.logins, name='login'),
     path('logout/', views.logouts, name='logout'),
     path('register/', views.registers, name='register'),
+    path('checktoken/', views.check_token, name='checktoken'),
     path('', TemplateView.as_view(template_name='dist/spa/index.html')),
 ]
 

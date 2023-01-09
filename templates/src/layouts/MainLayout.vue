@@ -12,7 +12,7 @@
         />
 
         <q-toolbar-title>
-          Quasar App{{ store.token }}
+          Quasar App{{ tokenStore.token }}
         </q-toolbar-title>
 
         <DarkMode />
@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
+import {defineComponent, onMounted, ref} from 'vue'
 import EssentialLink from 'components/EssentialLink.vue'
 import DarkMode from 'components/headers/DarkMode.vue'
 import PaginationBoundary from "components/pagination/PaginationBoundary.vue"
@@ -110,8 +110,12 @@ export default defineComponent({
 
   setup () {
     const leftDrawerOpen = ref(false)
-    const store = usetokenStore();
+    const tokenStore = usetokenStore();
     const $q = useQuasar()
+
+    onMounted(() => {
+      tokenStore.tokencheck()
+    })
 
     return {
       essentialLinks: linksList,
@@ -119,7 +123,7 @@ export default defineComponent({
       toggleLeftDrawer () {
         leftDrawerOpen.value = !leftDrawerOpen.value
       },
-      store,
+      tokenStore,
       darkChange () {
         $q.dark.toggle()
       }

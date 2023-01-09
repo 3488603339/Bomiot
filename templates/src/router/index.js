@@ -1,7 +1,7 @@
 import { route } from 'quasar/wrappers'
 import { createRouter, createMemoryHistory, createWebHistory, createWebHashHistory } from 'vue-router'
 import routes from './routes'
-import LoadingBar from 'components/LoadingBar/LoadingBar'
+
 
 export default route(function (/* { store, ssrContext } */) {
   const createHistory = process.env.SERVER
@@ -15,11 +15,5 @@ export default route(function (/* { store, ssrContext } */) {
 
   })
 
-  Router.beforeEach((to, from, next) => {
-    LoadingBar.start()
-  })
-  Router.afterEach((to, from, failure) => {
-    LoadingBar.stop()
-  })
   return Router
 })

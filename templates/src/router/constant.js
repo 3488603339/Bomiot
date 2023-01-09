@@ -1,7 +1,7 @@
 const constantRoutes = [
   {
     path: '/logon',
-    name: 'Logon',
+    name: 'logon',
     component: () => import('pages/logon/BomiotLogon.vue')
   }
 ]

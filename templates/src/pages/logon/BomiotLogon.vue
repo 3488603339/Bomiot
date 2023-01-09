@@ -15,7 +15,7 @@
                      clearable
                      standout="bg-cyan text-white"
                      bottom-slots
-                     v-model="username"
+                     v-model="loginData.username"
                      label="Account"
                      autofocus
             >
@@ -26,9 +26,9 @@
             <q-input class="logon-input"
                      standout="bg-cyan text-white"
                      bottom-slots
-                     v-model="pwd"
+                     v-model="loginData.pwd"
                      label="Password"
-                     :type="isPwd ? 'pwd' : 'text'" hint=""
+                     :type="isPwd ? 'loginData.pwd' : 'text'" hint=""
                   >
               <template v-slot:prepend>
                 <q-icon name="vpn_key"/>
@@ -62,55 +62,56 @@
 
 <script>
 import BomiotLottie from 'components/lottie/BomiotLottie.vue'
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, computed } from "vue";
+import { api } from 'boot/axios'
+import { usetokenStore } from 'stores/token';
+import { useRouter } from 'vue-router'
+import { useQuasar } from "quasar";
 
 export default defineComponent({
   name: 'BomiotLogon',
   components: { BomiotLottie },
   setup () {
     const isPwd = ref(true)
-    const username = ref('')
-    const pwd = ref('')
+    const loginData = ref({
+      username: '',
+      pwd: ''
+    })
     const loading = ref(false)
-    const percentage = ref(0)
-    const isLottieF = ref(false)
+    const $q = useQuasar()
+    const $router = useRouter()
+    const tokenStore = usetokenStore();
 
     return {
       isPwd,
-      username,
-      pwd,
+      loginData,
       loading,
-      percentage,
-      isLottieF,
+      tokenStore,
 
       logon () {
         loading.value = !loading.value
-        if (this.username === 'admin' || this.username === 'test') {
-          sessionStorage.setItem('access_token', 972784674)
-          sessionStorage.setItem('user_role', this.username)
-          const lt = setTimeout(() => {
-            this.$router.push('/').then(e => {
-              this.$q.notify({
-                icon: 'insert_emoticon',
-                message: 'hi，cimo 欢迎回来',
-                color: 'green',
-                position: 'top',
-                timeout: 1500
+         api.post('login/', loginData.value).then(res => {
+           tokenStore.tokenaction(res.data.token)
+           if (res.data.results) {
+              $q.notify({
+                type: 'negative',
+                message: 'Username or Password Does Not Correct',
               })
-              clearTimeout(lt)
-              this.loading = !this.loading
-            })
-          }, Math.random() * 3000)
-        } else {
-          this.loading = !this.loading
-          this.$q.notify({
-            icon: 'announcement',
-            message: '账号错误',
-            color: 'red',
-            position: 'top',
-            timeout: 1500
-          })
-        }
+             loading.value = !loading.value
+           } else {
+             const lt = setTimeout(() => {
+             $router.push('/').then(e => {
+                $q.notify({
+                  message: 'Hi Guy, Welcome Back',
+                })
+                clearTimeout(lt)
+                loading.value = !loading.value
+              })
+            }, Math.random() * 3000)
+           }
+         }).catch(error => {
+           console.log(error)
+         })
       }
     }
   }

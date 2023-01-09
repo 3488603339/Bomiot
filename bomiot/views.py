@@ -6,12 +6,12 @@ from wsgiref.util import FileWrapper
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-
-from utils.jwtauth import create_token
+from utils.jwtauth import create_token, parse_payload
 
 
 def logins(request):
-    data = json.loads(request.body.decode().replace("'", '"')).get('data')
+    print(request.body.decode())
+    data = json.loads(request.body.decode().replace("'", '"'))
     user = authenticate(username=data['username'], password=data['pwd'])
     context = {}
     if user:
@@ -72,6 +72,12 @@ def registers(request):
         login(request, user)
         context['result'] = 'Success'
         return JsonResponse(context)
+
+
+def check_token(request):
+    token = request.META.get('HTTP_TOKEN')
+    context = parse_payload(token)
+    return JsonResponse(context)
 
 
 def favicon(request):
