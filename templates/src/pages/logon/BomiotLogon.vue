@@ -4,13 +4,13 @@
 
     <div class="row base-card-shadow" style="width: 60vw;min-width: 300px">
       <div class="col-6 flex justify-center items-center " v-show="$q.screen.gt.sm">
-        <BomiotLottie align="right" style="height: 70%" />
+        <LogonLottie align="right" style="height: 70%" />
       </div>
       <q-separator vertical inset v-if="$q.screen.gt.sm"/>
       <div class="col flex justify-center items-center">
         <q-card square style="min-width: 290px;height: 100%; width: 60%;" class="no-shadow">
           <q-card-section align="center">
-            <h3 class="text-uppercase">Bomiot</h3>
+            <h3 class="text-uppercase">GreaterWMS</h3>
             <q-input class="logon-input"
                      clearable
                      standout="bg-cyan text-white"
@@ -28,7 +28,7 @@
                      bottom-slots
                      v-model="loginData.pwd"
                      label="Password"
-                     :type="isPwd ? 'loginData.pwd' : 'text'" hint=""
+                     :type="isPwd ? 'password' : 'text'"
                   >
               <template v-slot:prepend>
                 <q-icon name="vpn_key"/>
@@ -51,7 +51,8 @@
               @click="logon"
             >Sign In
             </q-btn>
-            <p class="text-grey" align="left">Default Password : 888888</p>
+            <p class="text-grey" align="left">Admin User : admin</p>
+            <p class="text-grey" align="left">Admin Password : admin</p>
           </q-card-section>
         </q-card>
       </div>
@@ -61,7 +62,7 @@
 </template>
 
 <script>
-import BomiotLottie from 'components/lottie/BomiotLottie.vue'
+import LogonLottie from 'components/lottie/LogonLottie.vue'
 import { defineComponent, ref, computed } from "vue";
 import { api } from 'boot/axios'
 import { usetokenStore } from 'stores/token';
@@ -70,7 +71,7 @@ import { useQuasar } from "quasar";
 
 export default defineComponent({
   name: 'BomiotLogon',
-  components: { BomiotLottie },
+  components: { LogonLottie },
   setup () {
     const isPwd = ref(true)
     const loginData = ref({
@@ -110,6 +111,7 @@ export default defineComponent({
             }, Math.random() * 3000)
            }
          }).catch(error => {
+           loading.value = !loading.value
            console.log(error)
          })
       }

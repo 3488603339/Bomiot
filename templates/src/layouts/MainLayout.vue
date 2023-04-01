@@ -1,6 +1,6 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+  <q-layout view="hHh lpr lfr">
+    <q-header reveal elevated class="bg-primary text-white">
       <q-toolbar>
         <q-btn
           flat
@@ -12,18 +12,15 @@
         />
 
         <q-toolbar-title>
-          Quasar App{{ tokenStore.token }}
+          GreaterWMS
         </q-toolbar-title>
-
+        <LanguageChoice/>
         <DarkMode />
+        <q-btn v-show="tokenStore.token !== ''" dense flat round icon="menu" @click="toggleRightDrawer" />
       </q-toolbar>
     </q-header>
 
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-    >
+    <q-drawer v-model="leftDrawerOpen" side="left" elevated>
       <q-list>
         <q-item-label
           header
@@ -39,18 +36,20 @@
       </q-list>
     </q-drawer>
 
+    <q-drawer v-model="rightDrawerOpen" side="right" overlay elevated>
+      <!-- drawer content -->
+    </q-drawer>
     <q-page-container>
-      <PaginationBoundary />
       <router-view />
     </q-page-container>
   </q-layout>
 </template>
 
 <script>
-import {defineComponent, onMounted, ref} from 'vue'
+import { defineComponent, onBeforeMount, ref } from 'vue'
 import EssentialLink from 'components/EssentialLink.vue'
 import DarkMode from 'components/headers/DarkMode.vue'
-import PaginationBoundary from "components/pagination/PaginationBoundary.vue"
+import LanguageChoice from "components/headers/LanguageChoice.vue"
 import { useQuasar } from 'quasar'
 import { usetokenStore } from 'stores/token';
 
@@ -105,15 +104,15 @@ export default defineComponent({
   components: {
     EssentialLink,
     DarkMode,
-    PaginationBoundary
+    LanguageChoice
   },
 
   setup () {
-    const leftDrawerOpen = ref(false)
+    const leftDrawerOpen = ref(true)
+    const rightDrawerOpen = ref(false)
     const tokenStore = usetokenStore();
-    const $q = useQuasar()
 
-    onMounted(() => {
+    onBeforeMount(() => {
       tokenStore.tokencheck()
     })
 
@@ -123,10 +122,11 @@ export default defineComponent({
       toggleLeftDrawer () {
         leftDrawerOpen.value = !leftDrawerOpen.value
       },
-      tokenStore,
-      darkChange () {
-        $q.dark.toggle()
-      }
+      rightDrawerOpen,
+      toggleRightDrawer () {
+        rightDrawerOpen.value = !rightDrawerOpen.value
+      },
+      tokenStore
     }
   }
 })

@@ -64,7 +64,7 @@ def get_app_name(name):
             apps.create_apps_py(app_dir, app)
             create_models_py(app_dir)
             create_urls_py(app_dir)
-            create_urls_py(app_dir)
+            create_test_py(app_dir)
             create_views_py(app_dir)
             create_config_ini(app_dir)
             return f'Success create app {app}'

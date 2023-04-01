@@ -29,6 +29,7 @@ DEBUG = CONFIG.getboolean('site', 'debug', fallback=False)
 VERSIONS = CONFIG.get('version', 'version', fallback='1.0.0')
 
 ALLOWED_HOSTS = ['*']
+AUTH_USER_MODEL = "user.User"
 
 INSTALLED_APPS = [
     'command',
@@ -62,7 +63,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'silk.middleware.SilkyMiddleware',
     'middleware.operation.Recorder',
-    'middleware.jwt.JwtAuthorizationMiddleware'
+    # 'middleware.jwt.JwtAuthorizationMiddleware'
 ]
 
 ROOT_URLCONF = 'bomiot.urls'

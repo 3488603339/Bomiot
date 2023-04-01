@@ -14,4 +14,5 @@ class Recorder(MiddlewareMixin):
 
     def process_request(self, request):
         if self.path_check(request):
-            print("md1  process_request 方法。", request.scheme)
+            pass
+            print("md1  process_request 方法。", request.method)

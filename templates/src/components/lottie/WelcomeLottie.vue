@@ -1,18 +1,18 @@
 <template>
-  <div id="bomiotlottie"></div>
+  <div id="welcomelottie"></div>
 </template>
 
 <script>
 import lottie from 'lottie-web'
-import logonlottie from './logonlottie.json'
+import welcomelottie from './welcome.json'
 import { defineComponent, onMounted, ref } from "vue"
 
 export default defineComponent({
-  name: 'BomiotLottie',
+  name: 'WelcomeLottie',
   props: {
     animationData: {
       type: Object,
-      default: logonlottie
+      default: welcomelottie
     },
     animationSpeed: {
       type: Number,
@@ -24,7 +24,7 @@ export default defineComponent({
 
     function initLottie () {
       animation.value = lottie.loadAnimation({
-        container: document.getElementById("bomiotlottie"),
+        container: document.getElementById("welcomelottie"),
         renderer: 'svg',
         loop: true,
         animationData: props.animationData

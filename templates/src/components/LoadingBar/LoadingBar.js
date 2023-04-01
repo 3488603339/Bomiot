@@ -1,7 +1,7 @@
 import { LoadingBar } from 'quasar'
 
 LoadingBar.setDefaults({
-  color: 'Bomiot-LoadingBar-color',
+  color: 'Gwms-LoadingBar-color',
   size: '2.3px',
   position: 'top'
 })

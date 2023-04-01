@@ -1,16 +1,18 @@
 from django.shortcuts import render, redirect
-import json, mimetypes
+import json
+import mimetypes
 from django.conf import settings
 from django.http import StreamingHttpResponse, JsonResponse
 from wsgiref.util import FileWrapper
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
 from utils.jwtauth import create_token, parse_payload
+
+User = get_user_model()
 
 
 def logins(request):
-    print(request.body.decode())
     data = json.loads(request.body.decode().replace("'", '"'))
     user = authenticate(username=data['username'], password=data['pwd'])
     context = {}
@@ -23,7 +25,7 @@ def logins(request):
         context['token'] = token
         return JsonResponse(context)
     else:
-        return JsonResponse({"results": "User Does Not Exists"})
+        return JsonResponse({"msg": "User Does Not Exists"})
 
 
 @login_required
@@ -107,6 +109,6 @@ def permission_denied(request, exception):
 def create_super_user():
     try:
         if User.objects.filter(is_superuser=True).exists() is False:
-            User.objects.create_superuser('admin', 'mail@56yhz.com', 'admin')
+            User.objects.create_superuser('admin', 'elvis.shi@56yhz.com', 'admin')
     except:
         pass
