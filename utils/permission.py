@@ -1,21 +1,9 @@
-# from api.models import Users
+from django.contrib.auth import get_user_model
+from rest_framework.permissions import IsAuthenticated
+
+User = get_user_model()
 
 
-class Normalpermission(object):
+class NormalPermission(IsAuthenticated):
     def has_permission(self, request, view):
-        # if Users.objects.filter(user_id=request.user.id, is_delete=0).exists():
-        #     vip = Users.objects.get(user_id=request.user.id, is_delete=0).vip
-        #     if vip == 0:
-        #         return True
-        #     else:
-        #         return True
-        return True
-
-    def has_object_permission(self, request, *args, **kwargs):
-        # if Users.objects.filter(user_id=request.user.id, is_delete=0).exists():
-        #     vip = Users.objects.get(user_id=request.user.id, is_delete=0).vip
-        #     if vip == 0:
-        #         return True
-        #     else:
-        #         return True
-        return True
+        return bool(request.user and request.user.is_authenticated)

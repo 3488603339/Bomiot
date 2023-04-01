@@ -23,6 +23,7 @@ def logins(request):
         }
         token = create_token(user_info)
         context['token'] = token
+        context['msg'] = "Success Login"
         return JsonResponse(context)
     else:
         return JsonResponse({"msg": "User Does Not Exists"})
