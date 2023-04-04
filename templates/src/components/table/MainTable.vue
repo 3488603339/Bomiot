@@ -208,6 +208,7 @@ export default defineComponent({
     }
 
     function onRequest (props) {
+      console.log(props)
       const { page, rowsPerPage, sortBy, descending } = props.pagination
       const filter = props.filter
       loading.value = true
@@ -229,6 +230,11 @@ export default defineComponent({
     }
 
     onMounted(() => {
+      const data = {
+        filter: filter.value,
+        pagination: pagination.value
+      }
+      onRequest(data)
       tableRef.value.requestServerInteraction()
     })
 
@@ -258,7 +264,7 @@ export default defineComponent({
   .q-table__top,
   .q-table__bottom,
   thead tr:first-child th
-    /* bg color is important for th; just specify one */
+    background: #ffffff
 
   thead tr th
     position: sticky
@@ -272,11 +278,11 @@ export default defineComponent({
     top: 48px
 
   thead tr:first-child th:first-child
-    /* bg color is important for th; just specify one */
+    background: #ffffff
 
   td:first-child
+    background: #ffffff
 
-  th:first-child,
   td:first-child
     position: sticky
     left: 0

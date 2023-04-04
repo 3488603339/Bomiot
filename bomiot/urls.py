@@ -29,6 +29,7 @@ urlpatterns += [
     re_path('^assets/.*$', views.statics, name='assets'),
     re_path('^statics/.*$', views.statics, name='statics'),
     re_path('^fonts/.*$', views.statics, name='fonts'),
+    re_path('^icons/.*$', views.statics, name='assets'),
     re_path(r'^static/(?P<path>.*)$', return_static, name='static'),
     re_path(r'^media/(?P<path>.*)$', static_serve, {'document_root': settings.MEDIA_ROOT}),
     path('silk/', include('silk.urls', namespace='silk'))

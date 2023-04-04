@@ -1,6 +1,7 @@
-from django.db.models import User
 from rest_framework.exceptions import APIException
+from django.contrib.auth import get_user_model
 
+User = get_user_model()
 
 class Authtication(object):
     def authenticate(self, request):
@@ -9,8 +10,8 @@ class Authtication(object):
         else:
             token = request.META.get('HTTP_TOKEN')
             if token:
-                if Users.objects.filter(openid__exact=str(token)).exists():
-                    user = Users.objects.filter(openid__exact=str(token)).first()
+                if User.objects.filter(openid__exact=str(token)).exists():
+                    user = User.objects.filter(openid__exact=str(token)).first()
                     return (True, user)
                 else:
                     raise APIException({"detail": "User Does Not Exists"})

@@ -16,6 +16,7 @@
         </q-toolbar-title>
         <LanguageChoice/>
         <DarkMode />
+        <FullScreen />
       </q-toolbar>
     </q-header>
 
@@ -45,9 +46,11 @@
 import { defineComponent, onBeforeMount, ref } from 'vue'
 import EssentialLink from 'components/EssentialLink.vue'
 import DarkMode from 'components/headers/DarkMode.vue'
+import FullScreen from "components/headers/FullScreen.vue";
 import LanguageChoice from "components/headers/LanguageChoice.vue"
 import { useQuasar } from 'quasar'
 import { usetokenStore } from 'stores/token';
+
 
 const linksList = [
   {
@@ -55,6 +58,12 @@ const linksList = [
     caption: '这是一个测试辞职',
     icon: 'school',
     link: 'test'
+  },
+  {
+    title: '用户管理',
+    caption: '用户的管理',
+    icon: 'user',
+    link: 'user'
   }
 ]
 
@@ -64,7 +73,8 @@ export default defineComponent({
   components: {
     EssentialLink,
     DarkMode,
-    LanguageChoice
+    LanguageChoice,
+    FullScreen
   },
 
   setup () {

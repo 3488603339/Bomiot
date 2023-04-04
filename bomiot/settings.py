@@ -300,7 +300,7 @@ REST_FRAMEWORK = {
         'rest_framework.parsers.MultiPartParser'
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': ['utils.auth.Authtication', ],
-    'DEFAULT_PERMISSION_CLASSES': ['utils.permission.Normalpermission', ],
+    'DEFAULT_PERMISSION_CLASSES': ['utils.permission.NormalPermission', ],
     'DEFAULT_THROTTLE_CLASSES': ['utils.throttle.VisitThrottle', ],
     # 'DEFAULT_THROTTLE_RATES': ['utils.throttle.VisitThrottle', ],
     'DEFAULT_CONTENT_NEGOTIATION_CLASS': 'rest_framework.negotiation.DefaultContentNegotiation',

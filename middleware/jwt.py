@@ -12,6 +12,18 @@ class JwtAuthorizationMiddleware(MiddlewareMixin):
         if request.path_info.startswith('/admin/'):
             return
 
+        if request.path_info.startswith('/statics/'):
+            return
+
+        if request.path_info.startswith('/js/'):
+            return
+
+        if request.path_info.startswith('/css/'):
+            return
+
+        if request.path_info.startswith('/assets/'):
+            return
+
         authorization = request.META.get('HTTP_TOKEN', '')
         auth = authorization.split()
         if not auth:
