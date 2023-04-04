@@ -11,4 +11,5 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
+        exclude = []
         read_only_fields = ['id']

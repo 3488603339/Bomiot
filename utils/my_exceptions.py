@@ -4,8 +4,6 @@ from django.db import DatabaseError
 
 
 def custom_exception_handler(exc, context):
-    # Call REST framework's default exception handler first,
-    # to get the standard error response.
     response = exception_handler(exc, context)
 
     # Now add the HTTP status code to the response.
@@ -16,5 +14,6 @@ def custom_exception_handler(exc, context):
         if isinstance(exc, DatabaseError):
             response = Response({'msg': DatabaseError})
         else:
-            response = Response({'detail': 'Other Error'})
+            pass
+            # response = Response({'detail': 'Other Error'})
     return response

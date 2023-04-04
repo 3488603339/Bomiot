@@ -152,6 +152,7 @@
 import { ref, onMounted, defineComponent, computed } from 'vue'
 import { useTableDataStore } from "stores/tableData";
 import OperationNote from 'components/operation/OperationNote.vue'
+import { api } from 'boot/axios'
 
 export default defineComponent({
   name: 'MainTable',
@@ -208,7 +209,9 @@ export default defineComponent({
     }
 
     function onRequest (props) {
-      console.log(props)
+      api.get('user/list/').then(res =>{
+        console.log(res)
+      })
       const { page, rowsPerPage, sortBy, descending } = props.pagination
       const filter = props.filter
       loading.value = true

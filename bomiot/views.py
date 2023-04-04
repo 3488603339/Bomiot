@@ -19,6 +19,7 @@ def logins(request):
     if user:
         login(request, user)
         user_info = {
+            "id": user.id,
             "username": user.username
         }
         token = create_token(user_info)
