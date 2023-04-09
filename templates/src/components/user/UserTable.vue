@@ -6,6 +6,7 @@
       :rows="rows"
       :columns="columns"
       row-key="id"
+      :rows-per-page-options="rowsPerPageOptions"
       v-model:pagination="pagination"
       rows-per-page-label="每页多少行"
       :loading="loading"
@@ -27,44 +28,26 @@
           </q-th>
         </q-tr>
       </template>
-
-       <template v-slot:body="props">
+      <template v-slot:body="props">
         <q-tr :props="props" :key="`m_${props.row.index}`">
           <q-td>
-            {{ props.row.index }}
+            {{ props.rowIndex + 1 }}
           </q-td>
-
           <q-td
             v-for="col in props.cols"
             :key="col.name"
             :props="props"
           >
             {{ col.value }}
+            <q-popup-edit v-model="col.value" buttons v-slot="scope">
+              <q-input v-model="scope.value" dense autofocus />
+            </q-popup-edit>
           </q-td>
         </q-tr>
       </template>
        <template v-slot:top-left>
          <q-btn-group push>
-           <q-btn push color="primary" label="刷新" icon="refresh" />
-           <q-btn push color="primary" label="新增" icon="add" />
-<!--           <q-input-->
-<!--              readonly-->
-<!--              outlined-->
-<!--              dense-->
-<!--              v-model="createDate2"-->
-<!--              :placeholder="interval"-->
-<!--            >-->
-<!--              <template v-slot:append>-->
-<!--                <q-icon name="event" class="cursor-pointer">-->
-<!--                  <q-popup-proxy-->
-<!--                    ref="qDateProxy"-->
-<!--                    transition-show="scale"-->
-<!--                    transition-hide="scale"-->
-<!--                    ><q-date v-model="createDate1" range-->
-<!--                  /></q-popup-proxy>-->
-<!--                </q-icon>-->
-<!--              </template>-->
-<!--            </q-input>-->
+           <q-btn push color="primary" label="新增" icon="person_add_alt"  @click="toggleRightDrawer" />
            <q-btn push
              color="primary"
              icon-right="archive"
@@ -73,10 +56,9 @@
            />
          </q-btn-group>
          <OperationNote />
-
        </template>
       <template v-slot:top-right="props">
-        <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
+        <q-input borderless dense debounce="300" v-model="filter" :placeholder="$t('search')">
           <template v-slot:append>
             <q-icon name="search" />
           </template>
@@ -89,6 +71,7 @@
         />
       </template>
       <template v-slot:pagination="scope">
+        总共：{{ pagination.rowsNumber }}行数据
         <q-btn
           v-if="scope.pagesNumber > 2"
           icon="first_page"
@@ -111,7 +94,7 @@
         <q-pagination
           v-model="pagination.page"
           :max="scope.pagesNumber"
-          :max-pages="6"
+          :max-pages="10"
           boundary-numbers
           @click="onRequest(scope)"
         />
@@ -146,6 +129,17 @@
       </template>
     </q-table>
   </div>
+  <q-drawer v-model="addOpen" side="right" overlay elevated>
+      <div class="q-pa-md">
+        <q-input />
+        <q-toggle v-model="addOpen" />
+        <q-separator spaced />
+
+        <q-btn icon="close" label="取消" @click="addOpen = false"></q-btn>
+        <q-btn color="primary" icon="check" label="提交"></q-btn>
+      </div>
+
+  </q-drawer>
 </template>
 
 <script>
@@ -155,75 +149,57 @@ import OperationNote from 'components/operation/OperationNote.vue'
 import { api } from 'boot/axios'
 
 export default defineComponent({
-  name: 'MainTable',
+  name: 'UserTable',
   components: {
     OperationNote
   },
   setup () {
     const store = useTableDataStore();
     const tableRef = ref()
-    const columns = computed(() => store.tableData.column)
-    const originalRows = computed(() => store.tableData.originalRow)
+    const columns = computed(() => store.getColumn)
+    const originalRows = computed(() => store.getoriginalRow)
+    const rowsPerPageOptions = computed(() => store.getrowPerPage)
     const rows = ref([])
     const filter = ref('')
     const loading = ref(false)
     const pagination = ref({
-        sortBy: 'desc',
-        descending: false,
-        page: 1,
-        rowsPerPage: 30,
-        rowsNumber: 10
-      })
+      sortBy: 'id',
+      descending: false,
+      page: 1,
+      rowsPerPage: 30,
+      rowsNumber: 30
+    })
+    const addOpen = ref(false)
 
-    function fetchFromServer (startRow, count, filter, sortBy, descending) {
-      const data = filter
-        ? originalRows.value.filter(row => row.name.includes(filter))
-        : originalRows.value.slice()
-      if (sortBy) {
-        const sortFn = sortBy === 'desc'
-          ? (descending
-              ? (a, b) => (a.name > b.name ? -1 : a.name < b.name ? 1 : 0)
-              : (a, b) => (a.name > b.name ? 1 : a.name < b.name ? -1 : 0)
-            )
-          : (descending
-              ? (a, b) => (parseFloat(b[ sortBy ]) - parseFloat(a[ sortBy ]))
-              : (a, b) => (parseFloat(a[ sortBy ]) - parseFloat(b[ sortBy ]))
-            )
-        data.sort(sortFn)
+
+    async function fetchFromServer (startRow, count, filter, sortBy, descending) {
+      if (descending === false) {
+        sortBy = '-' + sortBy
       }
-
-      return data.slice(startRow, startRow + count)
+      await api.get('user/list/?page=' + '' + pagination.value.page + '&max_page=' + '' + count + '&ordering=' + sortBy).then(res =>{
+        store.originalRowChange(res.data.results)
+      })
+      return originalRows.value.slice()
     }
 
-    function getRowsNumberCount (filter) {
-      if (!filter) {
-        return originalRows.value.length
-      }
-      let count = 0
-      originalRows.value.forEach(treat => {
-        if (treat.name.includes(filter)) {
-          ++count
-        }
-      })
-      return count
+    async function getRowsNumberCount (filter) {
+      await api.get('user/count/?search_word=' + '' + filter).then(res =>{
+          pagination.value.rowsNumber = res.data.results
+        })
+      return pagination.value.rowsNumber
     }
 
     function onRequest (props) {
-      api.get('user/list/').then(res =>{
-        console.log(res)
-      })
       const { page, rowsPerPage, sortBy, descending } = props.pagination
       const filter = props.filter
       loading.value = true
-      setTimeout(() => {
-        pagination.value.rowsNumber = getRowsNumberCount(filter)
+      setTimeout(async () => {
+        await getRowsNumberCount(filter)
         const fetchCount = rowsPerPage === 0 ? pagination.value.rowsNumber : rowsPerPage
         const startRow = (page - 1) * rowsPerPage
-        const returnedData = fetchFromServer(startRow, fetchCount, filter, sortBy, descending)
+        const returnedData = await fetchFromServer(startRow, fetchCount, filter, sortBy, descending)
+        console.log(3, returnedData)
         rows.value.splice(0, rows.value.length, ...returnedData)
-        rows.value.forEach((item, index) =>{
-          item.index = index + 1
-        })
         pagination.value.page = page
         pagination.value.rowsPerPage = rowsPerPage
         pagination.value.sortBy = sortBy
@@ -248,12 +224,18 @@ export default defineComponent({
       pagination,
       columns,
       originalRows,
+      rowsPerPageOptions,
       rows,
+      addOpen,
 
       onRequest,
       pagesNumber: computed(() => {
         return Math.ceil(rows.value.length / pagination.value.rowsPerPage)
-      })
+      }),
+
+      toggleRightDrawer () {
+        addOpen.value = !addOpen.value
+      },
     }
   }
 })

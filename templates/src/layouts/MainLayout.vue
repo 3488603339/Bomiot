@@ -62,7 +62,7 @@ const linksList = [
   {
     title: '用户管理',
     caption: '用户的管理',
-    icon: 'user',
+    icon: 'people',
     link: 'user'
   }
 ]

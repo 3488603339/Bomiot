@@ -4,11 +4,16 @@ from utils.page import MyPageNumberPagination
 from rest_framework.filters import OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.response import Response
+from django.http import JsonResponse
 from .filter import Filter
 from rest_framework.exceptions import APIException
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
+
+
+def countData(request):
+    return JsonResponse({"results": User.objects.filter(is_delete=False).count()})
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -34,7 +39,6 @@ class UserViewSet(viewsets.ModelViewSet):
             return User.objects.none()
 
     def get_serializer_class(self):
-        print(1)
         return UserSerializer
 
     def create(self, request, *args, **kwargs):
