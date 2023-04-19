@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import MainTable from 'components/table/MainTable.vue'
+import MainTable from 'components/table/TableData.vue'
 import { defineComponent } from "vue";
 
 export default defineComponent({

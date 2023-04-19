@@ -5,7 +5,7 @@ export const useLanguageStore = defineStore('lang', {
     lang: 'en-US',
   }),
   getters: {
-    getDark: (state) => state.lang
+    getLanguage: (state) => state.lang
   },
   actions: {
     LanguageChange(e) {

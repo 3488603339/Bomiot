@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 
-export const useTableDataStore = defineStore('dataAPI', {
+export const useDataAPIStore = defineStore('dataAPI', {
   state: () => ({
     api: ''
   }),

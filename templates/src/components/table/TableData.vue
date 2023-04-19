@@ -48,8 +48,8 @@
               <div v-if="col.name === 'action'">
                 <q-btn round flat push color="purple" icon="edit" @click="editData(props.row)">
                    <q-tooltip content-class="bg-amber text-black shadow-4" :offset="[10, 10]" content-style="font-size: 12px">
-                    {{ $t('edit') }}
-                  </q-tooltip>
+                     {{ $t('edit') }}
+                   </q-tooltip>
                  </q-btn>
                  <q-btn round flat push color="dark" icon="delete" @click="deleteData(props.row)">
                    <q-tooltip content-class="bg-amber text-black shadow-4" :offset="[10, 10]" content-style="font-size: 12px">
@@ -111,7 +111,7 @@
           @click="scope.prevPage"
         />
         <q-pagination
-          v-model="pagination.page"
+          v-model="scope.pagination.page"
           :max="scope.pagesNumber"
           :max-pages="10"
           boundary-numbers
