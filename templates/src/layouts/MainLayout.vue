@@ -82,7 +82,7 @@ export default defineComponent({
     const tokenStore = usetokenStore();
 
     onBeforeMount(() => {
-      // tokenStore.tokencheck()
+      tokenStore.tokencheck()
     })
 
     return {
