@@ -172,12 +172,12 @@ export default defineComponent({
     OperationNote
   },
   setup () {
-    const store = useTableDataStore()
+    const tableStore = useTableDataStore()
     const { t } = useI18n()
     const tableRef = ref()
-    const columns = computed(() => store.getColumn)
-    const originalRows = computed(() => store.getoriginalRow)
-    const rowsPerPageOptions = computed(() => store.getrowPerPage)
+    const columns = computed(() => tableStore.getColumn)
+    const originalRows = computed(() => tableStore.getoriginalRow)
+    const rowsPerPageOptions = computed(() => tableStore.getrowPerPage)
     const rows = ref([])
     const filter = ref('')
     const loading = ref(false)
@@ -197,7 +197,7 @@ export default defineComponent({
         sortBy = '-' + sortBy
       }
       await api.get('user/list/?page=' + '' + pagination.value.page + '&max_page=' + '' + count + '&ordering=' + sortBy).then(res =>{
-        store.originalRowChange(res.data.results)
+        tableStore.originalRowChange(res.data.results)
         pagination.value.rowsNumber = res.data.count
       })
       return originalRows.value.slice()
