@@ -4,6 +4,7 @@
   <p>Open Source One Company Management System</p>
 
 <!-- Badges -->
+
 [![License: APLv2](https://img.shields.io/github/license/Bomiot/Bomiot)](https://opensource.org/licenses/Apache-2.0/)
 ![Release Version (latest Version)](https://img.shields.io/github/v/release/Bomiot/Bomiot?color=orange&include_prereleases)
 ![QR Code Support](https://img.shields.io/badge/QR--Code-Support-orange.svg)
@@ -26,10 +27,13 @@
 ![NodeJS](https://img.shields.io/badge/NodeJS-18.12.1-yellowgreen)
 
 [![YouTube](https://img.shields.io/youtube/channel/subscribers/UCPW1wciGMIEh7CYOdLnsloA?color=red&label=YouTube&logo=youtube&style=for-the-badge)](https://www.youtube.com/channel/UCPW1wciGMIEh7CYOdLnsloA)
+
 </div>
 
-[//]: # (Some Link)
+[//]: # "Some Link"
+
 ## :rocket: Link US
+
 <h4>
     <a href="https://www.56yhz.com/">Home Page</a>
 </h4>
@@ -46,73 +50,84 @@
   <a href="https://github.com/Bomiot/Bomiot/blob/master/README_CN.md">中文文档</a>
 </h4>
 
-[//]: # (About the Project)
+[//]: # "About the Project"
+
 ## :star2: About the Project
 
 This Inventory management system is the currently Ford Asia Pacific after-sales logistics warehousing supply chain process.
-After I leave Ford, I start this project in order to help some who need it. 
+After I leave Ford, I start this project in order to help some who need it.
 OneAPP Type. Support scanner PDA, mobile APP, desktop exe, website as well.
 
-[//]: # (Function)
+[//]: # "Function"
+
 ## :dart: Function
 
-* [x] Supplier Management
-* [x] Customer Management
-* [x] Scanner PDA
-* [x] Cycle Count
-* [x] Order Management
-* [x] Stock Control
-* [x] Safety Stock Show
-* [x] API Documents
-* [x] IOS APP Support
-* [x] Android APP Support
-* [x] Electron APP Support
-* [x] Auto Update
-* [x] i18n Support
-* [x] API Documents
+-   [x] Supplier Management
+-   [x] Customer Management
+-   [x] Scanner PDA
+-   [x] Cycle Count
+-   [x] Order Management
+-   [x] Stock Control
+-   [x] Safety Stock Show
+-   [x] API Documents
+-   [x] IOS APP Support
+-   [x] Android APP Support
+-   [x] Electron APP Support
+-   [x] Auto Update
+-   [x] i18n Support
+-   [x] API Documents
 
-[//]: # (Install)
+[//]: # "Install"
+
 ## :compass: Install
+
 Python install
-- [python 3.11.1](https://www.python.org/downloads/release/python-3111/)
+
+-   [python 3.11.1](https://www.python.org/downloads/release/python-3111/)
 
 Nodejs install
-- [nodejs 18.12.1](https://nodejs.org/download/release/v18.12.1/)
+
+-   [nodejs 18.12.1](https://nodejs.org/download/release/v18.12.1/)
 
 Clone Project
-~~~shell
+
+```shell
 git clone https://github.com/Bomiot/Bomiot.git
-~~~
+```
 
 Backend Environment
-~~~shell
+
+```shell
 cd Bomiot/
 pip install -r requirements.txt
-~~~
+```
 
 Frontend Environment
-~~~shell
+
+```shell
 npm install -g @quasar/cli
 npm install -g yarn
 cd templates/
 yarn install
-~~~
+```
 
 DataBase Migrate
-~~~shell
+
+```shell
 cd Bomiot/
 python manage.py makemigratons
 python manage.py migrate
-~~~
+```
 
 ### docker(Optional)
-~~~shell
+
+```shell
 cd Bomiot/
 docker-compose up -d
 # Change Baseurl
 # baseurl Bomiot/templates/public/statics/baseurl.txt
 docker-compose restart
-~~~
+```
 
 <h4>
   <a href="https://www.56yhz.com/en-us/docs/2/3/">Windows X64</a>
@@ -136,31 +151,35 @@ docker-compose restart
   <a href="https://www.56yhz.com/en-us/docs/2/11/">Electron Environment</a>
 </h4>
 
-[//]: # (development)
+[//]: # "development"
+
 ## :hammer_and_wrench: How To Run Development Server:
 
-- Run Backend:
-~~~shell
+-   Run Backend:
+
+```shell
 cd Bomiot
 python manage.py runserver
 or
 python manage.py runserver 0.0.0.0:8008 # internet
-~~~
+```
 
-- Run Frontend:
-~~~shell
+-   Run Frontend:
+
+```shell
 cd templates
 quasar d # http://localhost:8080
 or
 quasar dev # http://localhost:8080
-~~~
+```
 
-- Change Request Baseurl
-~~~shell
+-   Change Request Baseurl
+
+```shell
 templates/public/statics/baseurl.txt
-~~~
+```
 
-- Companion Mobile APP
+-   Companion Mobile APP
 
 Bomiot is supported by a companion mobile app which allows users access to run the business well.
 It can scan the goods by your camera or your PDA scanner.
@@ -171,22 +190,24 @@ Companion android app is a apks file, need use [bundletool](https://github.com/g
 
 Please confirm you have installed JAVA
 
-~~~shell
+```shell
 ## Take attention on your bundletool version
 bundletool-all-1.13.0.jar install-apks --apks=GWMS.apks
-~~~
+```
 
-[//]: # (publish)
+[//]: # "publish"
+
 ## :trumpet: How To Publish Your APP:
 
-- Web Build:
+-   Web Build:
 
-~~~shell
+```shell
 cd templates
 quasar build # /templates/dist/spa
-~~~
+```
 
-[//]: # (deploy)
+[//]: # "deploy"
+
 ## :computer: How To Deploy Server:
 
 <h4>
@@ -201,6 +222,7 @@ If the server has SSL enabled, please use HTTPS and WSS, if SSL is not enabled, 
 The front-end code needs to be rebuilt after modification.
 
 <!-- Sponsor -->
+
 ## :money_with_wings: Sponsor
 
 If you use Bomiot and find it to be useful, please consider making a donation toward its continued development.
@@ -208,6 +230,7 @@ If you use Bomiot and find it to be useful, please consider making a donation to
 [Donate via PayPal](https://paypal.me/singosgu)
 
 ## Show
+
 <div align="left">
     <img src="static/img/Bomiot_en.png" alt="Bomiot home" width="" height="400" />
 </div>
@@ -218,11 +241,14 @@ If you use Bomiot and find it to be useful, please consider making a donation to
 </div>
 
 <!-- License -->
+
 ## :warning: License
 
 Distributed under the [APL V2](https://opensource.org/licenses/Apache-2.0/) License. See [LICENSE.txt](https://github.com/Bomiot/Bomiot/blob/master/LICENSE) for more information.
 
 <!-- COMMERCIAL LICENSE -->
+
 ## :old_key: Commercial License
 
-- Don't worry about Commercial License. You will get Free Commercial License while you download the source code.
+-   Don't worry about Commercial License. You will get Free Commercial License while you download the source code.
+    111
