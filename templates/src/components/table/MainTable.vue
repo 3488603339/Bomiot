@@ -1,54 +1,37 @@
 <template>
-  <TableData />
+	<div><TableData :_columns="_columns" :data="urlData" /></div>
 </template>
+<script setup>
+import TableData from "components/table/TableData.vue";
+import { useTableDataStore } from "stores/tableData";
+import { defineComponent, onMounted, ref, watch, computed } from "vue";
+import { useI18n } from "vue-i18n";
+import { useLanguageStore } from "stores/language";
 
-<script>
-import TableData from 'components/table/TableData.vue'
-import { useTableDataStore } from "stores/tableData"
-import { defineComponent, onMounted, ref, watch, computed } from "vue"
-import { useI18n } from "vue-i18n"
-import { useLanguageStore } from "stores/language"
+const _column = defineProps({
+	_columns: {
+		default: [],
+	},
+	_data: {
+		default: "",
+	},
+});
+const urlData = ref(_column._data);
+const column = ref(_column._columns);
+const languageStore = useLanguageStore();
+const lang = computed(() => languageStore.lang);
+const tableStore = useTableDataStore();
+const { t } = useI18n();
+function columnChange() {
+	tableStore.columnChange([]);
+	tableStore.columnChange(column.value);
+}
 
-export default defineComponent({
-  name: "MainTable",
-  components: {
-    TableData
-  },
-  setup () {
-    const languageStore = useLanguageStore()
-    const lang = computed(() => languageStore.lang);
-    const tableStore = useTableDataStore()
-    const { t } = useI18n()
-    const column = ref([])
+onMounted(() => {
+	columnChange();
+});
 
-    function columnChange () {
-      tableStore.columnChange([])
-      column.value = [
-        { name: 'username', required: true, label: 'username', align: 'left', field: 'username', sortable: true},
-        { name: 'email', label: 'email', field: 'email', sortable: true },
-        { name: 'phone', label: 'phone', field: 'phone', sortable: true },
-        { name: 'is_active', label: 'is_active', field: 'is_active', sortable: true },
-        { name: 'date_joined', label: 'date_joined', field: 'date_joined', sortable: true },
-        { name: 'last_login', label: 'last_login', field: 'last_login', sortable: true },
-        { name: 'action', label: `${t('action')}`, align: 'right' }
-      ]
-      tableStore.columnChange(column.value)
-    }
-
-    onMounted(()=> {
-      columnChange()
-    })
-
-    watch (lang,(newValue, oldValue)=>{
-      columnChange()
-    })
-
-    return {
-      t,
-      lang,
-      column
-    }
-  }
-
-})
+watch(lang, (newValue, oldValue) => {
+	columnChange();
+});
 </script>
